@@ -6,6 +6,7 @@ import (
 	"log"
 	"github.com/gorilla/websocket"
 	"html/template"
+	"os"
 )
 
 var upgrader = websocket.Upgrader{
@@ -66,5 +67,5 @@ func setupRoutes() {
 func main() {
 	fmt.Println("Init App")
 	setupRoutes()
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), nil))
 }
