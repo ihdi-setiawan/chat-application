@@ -49,7 +49,7 @@ func wsPage(w http.ResponseWriter, r * http.Request) {
 }
 
 func chatPage(w http.ResponseWriter, r * http.Request) {
-	var t, err = template.ParseFiles("chat.html")
+	var t, err = template.ParseFiles("./static/chat.html")
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -59,13 +59,18 @@ func chatPage(w http.ResponseWriter, r * http.Request) {
 }
 
 func setupRoutes() {
-	http.HandleFunc("/", homePage)
+	http.HandleFunc("/", chatPage)
 	http.HandleFunc("/ws", wsPage)
-	http.HandleFunc("/chat", chatPage)
 }
 
 func main() {
 	fmt.Println("Init App")
 	setupRoutes()
+
+	if (os.Getenv("PORT") == "") {
+		os.Setenv("PORT", "8080")
+	}
+	
+	log.Println("PORT:", os.Getenv("PORT"))
 	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), nil))
 }

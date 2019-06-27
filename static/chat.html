@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chatting App</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    .login-form {
+      width: 340px;
+      margin: 50px auto;
+    }
+
+    .login-form form {
+      margin-bottom: 15px;
+      background: #f7f7f7;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+    }
+
+    .login-form h2 {
+      margin: 0 0 15px;
+    }
+
+    .form-control,
+    .btn {
+      min-height: 38px;
+      border-radius: 2px;
+    }
+
+    .btn {
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .message-box {
+      border: 0.1px solid silver;
+      padding: 40px;
+      max-width: 600px;
+      margin-bottom: 10px;
+    }
+
+    .message-room {
+      border: 0.1px solid silver;
+      max-width: 600px;
+      margin-bottom: 5px;
+      text-align: right;
+      background-color: cornsilk;
+    }
+
+    .messaging {
+      max-width: 600px;
+      margin-top: 20px;
+    }
+
+    .message-text {
+      margin-top: 10px;
+    }
+
+    .message-photo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center center;
+      display: inline-block;
+    }
+
+    .message-name {
+      font-weight: bold;
+      margin-left: 10px;
+      display: inline-block;
+    }
+  </style>
+  <script>
+    let wSocket;
+    //var serviceLocation = "wss://powerful-ravine-21086.herokuapp.com/ws"
+    var serviceLocation = "ws://localhost:8080/chat/"
+    var userName;
+    var message;
+    var chatWindow;
+    var room = "";
+
+    function init() {
+      userName = $("#userName");
+      message = $("#message");
+      chatWindow = $("#chatWindow");
+      userName.focus();
+      $('.chat-container').hide();
+    }
+
+    function connectToChatServer() {
+      //wSocket = new WebSocket(serviceLocation + room);
+      //wSocket.onmessage = onMessageReceived;
+    }
+
+    $(document).ready(function () {
+      init();
+
+      $('#signIn').click(function (e) {
+        e.preventDefault();
+        room = $('#room').val();
+        $('.chat-container').show();
+        $('.login-form').hide();
+        $(".message-room").text("Channel @" + room);
+      })
+    });
+  </script>
+</head>
+
+<body>
+  <div class="login-form">
+    <form action="/examples/actions/confirmation.php" method="post">
+      <h2 class="text-center">Chat Sign In</h2>
+      <div class="form-group">
+        <input type="text" class="form-control" id="userName" placeholder="Username" required="required">
+      </div>
+      <div class="form-group">
+        <select class="form-control" required="required" id="room">
+          <option value="">Choose Group</option>
+          <option value="football">Football</option>
+          <option value="traveling">Traveling</option>
+          <option value="technology">Technology</option>
+          <option value="gossip">Gossip</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="submit" id="signIn" class="btn btn-primary btn-block">Sign in</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="chat-container">
+    <div class="message-room center-block"></div>
+    <div class="message-box center-block">
+      <div class="row">
+        <div class="col-xs-8 col-md-6">
+          <h4 class="message-name">Mr. Minion</h4>
+        </div>
+        <div class="col-xs-4 col-md-6 text-right message-date">Date here</div>
+      </div>
+      <div class="row message-text">
+        text over here text over here text over here text over here text over here text over here text over here text
+        over here text over here
+      </div>
+    </div>
+    <div class="messaging center-block">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="input-group">
+            <input type="text" class="form-control">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">Send</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="messaging center-block">
+      <button type="button" id="leave" class="btn btn-primary btn-block">Leave</button>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
