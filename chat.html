@@ -1,0 +1,43 @@
+<html>
+
+<head>
+  <title>Golang learn net/http</title>
+</head>
+
+<body>
+  <script>
+    var supportsWebSockets = 'WebSocket' in window || 'MozWebSocket' in window;
+    if (supportsWebSockets) {
+      console.log("Support websocket")
+      try {
+        var socket = new WebSocket("ws://localhost:8081/ws")
+        console.log("Attempting Websocket Connection")
+
+        socket.onopen = () => {
+          console.log("Successfully connected")
+          socket.send("Hi from the client")
+        }
+
+        socket.onclose = (event) => {
+          console.log("Socket closed connection", event)
+        }
+
+        socket.onerror = (error) => {
+          console.log("Socket error", error)
+        }
+
+        socket.onmessage = (msg) => {
+          console.log(msg)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+
+    } else {
+      console.log("Not Supported websocket")
+    }
+
+  </script>
+</body>
+
+</html>
